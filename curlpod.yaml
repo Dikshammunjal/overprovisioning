@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: Pod 
+metadata: 
+  creationTimestamp: "2022-09-23T04:17:51Z" 
+  labels: 
+    run: mycurlpod 
+  name: mycurlpod 
+  namespace: default 
+  resourceVersion: "1181174" 
+  uid: 646702a6-4c37-4212-a700-180ac2be385b 
+spec: 
+  containers: 
+  - args: 
+    - sh 
+    image: curlimages/curl 
+    imagePullPolicy: Always 
+    name: mycurlpod 
+    resources: {} 
+    stdin: true 
+    stdinOnce: true 
+    terminationMessagePath: /dev/termination-log 
+    terminationMessagePolicy: File 
+    tty: true 
+    volumeMounts: 
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount 
+      name: kube-api-access-ps4lw 
+      readOnly: true 
+  dnsPolicy: ClusterFirst 
+  enableServiceLinks: true 
+  nodeName: 10.230.73.227 
+  preemptionPolicy: PreemptLowerPriority 
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-ps4lw
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status: 
+  conditions: 
+  - lastProbeTime: null 
+    lastTransitionTime: "2022-09-23T04:17:51Z" 
+    status: "True" 
+    type: Initialized 
+  - lastProbeTime: null 
+    lastTransitionTime: "2022-09-26T07:45:38Z" 
+    status: "True" 
+    type: Ready 
+  - lastProbeTime: null 
+    lastTransitionTime: "2022-09-26T07:45:38Z" 
+    status: "True" 
+    type: ContainersReady 
+  - lastProbeTime: null 
+    lastTransitionTime: "2022-09-23T04:17:51Z" 
+    status: "True" 
+    type: PodScheduled 
+  containerStatuses: 
+  - containerID: cri-o://625ed5c7f9ebcf19ad77d86eed98772eda7393ce626a3ef804db5969721c860a 
+    image: docker.io/curlimages/curl:latest 
+    imageID: docker.io/curlimages/curl@sha256:9fab1b73f45e06df9506d947616062d7e8319009257d3a05d970b0de80a41ec5 
+    lastState: {} 
+    name: mycurlpod 
+    ready: true 
+    restartCount: 2 
+    started: true 
+    state: 
+      running: 
+        startedAt: "2022-09-26T07:45:38Z" 
+  hostIP: 10.230.73.227 
+  phase: Running 
+  podIP: 10.230.72.57 
+  podIPs: 
+  - ip: 10.230.72.57 
+  qosClass: BestEffort 
+  startTime: "2022-09-23T04:17:51Z"
