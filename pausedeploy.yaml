@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overprovisioning
+  namespace: default
+spec:
+  replicas: 40
+  selector:
+    matchLabels:
+      run: overprovisioning
+  template:
+    metadata:
+      labels:
+        run: overprovisioning
+    spec:
+      priorityClassName: overprovisioning
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: reserve-resources
+        image: bom.ocir.io/sehubjapacprod/overprovision/pause:latest
+        resources:
+          requests:
+            cpu: "500m"
+      imagePullSecrets:
+      - name: ocirsecret
+
